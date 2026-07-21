@@ -1,0 +1,6 @@
+com.example.remindy
+drawable ic_notification
+mipmap ic_launcher
+mipmap ic_launcher_round
+string app_name
+style Theme_Remindy

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incidents format="6" by="lint 9.2.1" type="partial_results">
+    <map id="NotificationPermission">
+        <entry
+            name="source"
+            boolean="true"/>
+    </map>
+    <map id="ScheduleExactAlarm">
+        <location id="0"
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/example/remindy/notification/ReminderAlarmScheduler.kt"
+            line="31"
+            column="13"
+            startOffset="1109"
+            endLine="31"
+            endColumn="96"
+            endOffset="1192"/>
+        <location id="1"
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/example/remindy/notification/StudyAlarmScheduler.kt"
+            line="58"
+            column="23"
+            startOffset="2177"
+            endLine="58"
+            endColumn="106"
+            endOffset="2260"/>
+        <entry
+            name="ChecksExactAlarmPermission"
+            boolean="true"/>
+    </map>
+    <map id="UnsafeIntentLaunch">
+            <map id="unprotected">
+                <entry
+                    name="com.example.remindy.MainActivity"
+                    boolean="true"/>
+                <entry
+                    name="com.example.remindy.notification.BootReceiver"
+                    boolean="true"/>
+            </map>
+    </map>
+    <map id="UnusedResources">
+        <entry
+            name="model"
+            string="drawable[ic_notification(U)],mipmap[ic_launcher(U),ic_launcher_round(U)],string[app_name(U)],style[Theme_Remindy(U)];1^0,2^0;;;"/>
+    </map>
+
+</incidents>

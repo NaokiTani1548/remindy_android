@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "com.example.remindy.app-debug-56:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.example.remindy.app-main-58:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.example.remindy.app-debug-56:/drawable_ic_notification.xml.flat",
+        "source": "com.example.remindy.app-main-58:/drawable/ic_notification.xml"
+    },
+    {
+        "merged": "com.example.remindy.app-debug-56:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.example.remindy.app-main-58:/mipmap-anydpi-v26/ic_launcher.xml"
+    }
+]
