@@ -11,6 +11,7 @@ import androidx.compose.material3.Surface
 import com.example.remindy.di.AppContainer
 import com.example.remindy.ui.RemindyApp
 import com.example.remindy.ui.RemindyViewModelFactory
+import com.example.remindy.ui.theme.RemindyTheme
 
 class MainActivity : ComponentActivity() {
 
@@ -28,8 +29,8 @@ class MainActivity : ComponentActivity() {
         val factory = RemindyViewModelFactory(container)
 
         setContent {
-            MaterialTheme {
-                Surface {
+            RemindyTheme {
+                Surface(color = MaterialTheme.colorScheme.background) {
                     RemindyApp(factory = factory, authRepository = container.authRepository)
                 }
             }

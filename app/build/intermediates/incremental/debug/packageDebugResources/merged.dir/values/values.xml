@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="ic_launcher_background">#6A3DDC</color>
     <string name="app_name">Remindy</string>
     <style name="Theme.Remindy" parent="android:Theme.Material.Light.NoActionBar"/>
 </resources>

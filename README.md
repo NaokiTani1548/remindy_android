@@ -76,7 +76,7 @@
 | テスト | Compose UI Test (E2E) |
 | バックエンド | Spring Boot 4 (Render にデプロイ) |
 
----で
+---
 
 ## セットアップ
 

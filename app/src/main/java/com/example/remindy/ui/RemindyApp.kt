@@ -61,7 +61,9 @@ private fun MainScaffold(factory: RemindyViewModelFactory) {
         bottomBar = {
             val backStack by navController.currentBackStackEntryAsState()
             val current = backStack?.destination
-            NavigationBar {
+            NavigationBar(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+            ) {
                 tabs.forEach { tab ->
                     NavigationBarItem(
                         selected = current?.hierarchy?.any { it.route == tab.route } == true,

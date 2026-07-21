@@ -1,13 +1,16 @@
 package com.example.remindy.ui.reminder
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.remindy.domain.model.Schedule
@@ -37,58 +40,139 @@ fun ReminderEditScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(if (existing == null) "新規リマインダー" else "リマインダー編集") },
+                title = {
+                    Text(
+                        if (existing == null) "新規リマインダー" else "リマインダー編集",
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = onDone) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "戻る")
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                ),
             )
-        }
+        },
     ) { padding ->
         Column(
-            modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            OutlinedTextField(
-                value = title, onValueChange = { title = it },
-                label = { Text("タイトル") }, singleLine = true,
-                modifier = Modifier.fillMaxWidth().testTag("input_title"),
-            )
+            // ── タイトル ───────────────────────────────
+            ElevatedCard(
+                modifier = Modifier.fillMaxWidth(),
+                elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp),
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    Text(
+                        "タイトル",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                    OutlinedTextField(
+                        value = title,
+                        onValueChange = { title = it },
+                        placeholder = { Text("リマインダー名を入力") },
+                        singleLine = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .testTag("input_title"),
+                    )
+                }
+            }
 
-            Text("繰り返し", style = MaterialTheme.typography.labelLarge)
-            Column {
-                SchedType.entries.forEach { t ->
-                    Row(
-                        Modifier.fillMaxWidth().selectable(selected = type == t, onClick = { type = t }),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        RadioButton(selected = type == t, onClick = { type = t })
-                        Text(typeLabel(t))
+            // ── スケジュール ────────────────────────────
+            ElevatedCard(
+                modifier = Modifier.fillMaxWidth(),
+                elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp),
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
+                    Text(
+                        "繰り返し",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+
+                    SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
+                        SchedType.entries.forEachIndexed { index, t ->
+                            SegmentedButton(
+                                selected = type == t,
+                                onClick = { type = t },
+                                shape = SegmentedButtonDefaults.itemShape(
+                                    index = index,
+                                    count = SchedType.entries.size,
+                                ),
+                            ) {
+                                Text(typeLabel(t), style = MaterialTheme.typography.labelSmall)
+                            }
+                        }
+                    }
+
+                    OutlinedTextField(
+                        value = time,
+                        onValueChange = { time = it },
+                        label = { Text("時刻 (HH:mm)") },
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+
+                    when (type) {
+                        SchedType.ONE_TIME -> OutlinedTextField(
+                            value = date,
+                            onValueChange = { date = it },
+                            label = { Text("日付 (YYYY-MM-DD)") },
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                        SchedType.WEEKLY -> WeekdaySelector(dayOfWeek) { dayOfWeek = it }
+                        SchedType.MONTHLY -> OutlinedTextField(
+                            value = dayOfMonth,
+                            onValueChange = { dayOfMonth = it },
+                            label = { Text("日にち (1〜31)") },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                        SchedType.DAILY -> {}
                     }
                 }
             }
 
-            OutlinedTextField(
-                value = time, onValueChange = { time = it },
-                label = { Text("時刻 (HH:mm)") }, singleLine = true,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                modifier = Modifier.fillMaxWidth(),
-            )
-
-            when (type) {
-                SchedType.ONE_TIME -> OutlinedTextField(
-                    value = date, onValueChange = { date = it },
-                    label = { Text("日付 (YYYY-MM-DD)") }, singleLine = true,
+            // ── エラー表示 ──────────────────────────────
+            error?.let {
+                Surface(
                     modifier = Modifier.fillMaxWidth(),
-                )
-                SchedType.WEEKLY -> WeekdaySelector(dayOfWeek) { dayOfWeek = it }
-                SchedType.MONTHLY -> OutlinedTextField(
-                    value = dayOfMonth, onValueChange = { dayOfMonth = it },
-                    label = { Text("日にち (1-31)") }, singleLine = true,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    modifier = Modifier.fillMaxWidth(),
-                )
-                SchedType.DAILY -> {}
+                    color = MaterialTheme.colorScheme.errorContainer,
+                    shape = MaterialTheme.shapes.small,
+                ) {
+                    Text(
+                        it,
+                        color = MaterialTheme.colorScheme.onErrorContainer,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.padding(12.dp),
+                    )
+                }
             }
 
-            error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
-
+            // ── アクションボタン ────────────────────────
             Button(
                 onClick = {
                     val result = buildSchedule(type, time, date, dayOfWeek, dayOfMonth)
@@ -99,24 +183,46 @@ fun ReminderEditScreen(
                         else -> { viewModel.update(existing.id, title.trim(), result); onDone() }
                     }
                 },
-                modifier = Modifier.fillMaxWidth(),
-            ) { Text("保存") }
-            OutlinedButton(onClick = onDone, modifier = Modifier.fillMaxWidth()) { Text("キャンセル") }
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+            ) {
+                Text("保存", style = MaterialTheme.typography.labelLarge)
+            }
+
+            OutlinedButton(
+                onClick = onDone,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+            ) {
+                Text("キャンセル", style = MaterialTheme.typography.labelLarge)
+            }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun WeekdaySelector(selected: DayOfWeek, onSelect: (DayOfWeek) -> Unit) {
-    Column {
-        Text("曜日", style = MaterialTheme.typography.labelLarge)
-        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            DayOfWeek.entries.forEach { d ->
-                FilterChip(
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text(
+            "曜日",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
+            DayOfWeek.entries.forEachIndexed { index, d ->
+                SegmentedButton(
                     selected = selected == d,
                     onClick = { onSelect(d) },
-                    label = { Text(weekdayJa(d.name)) },
-                )
+                    shape = SegmentedButtonDefaults.itemShape(
+                        index = index,
+                        count = DayOfWeek.entries.size,
+                    ),
+                ) {
+                    Text(weekdayJa(d.name))
+                }
             }
         }
     }
@@ -131,7 +237,7 @@ private fun Schedule?.toType(): SchedType = when (this) {
 }
 
 private fun typeLabel(t: SchedType) = when (t) {
-    SchedType.ONE_TIME -> "一回限り"
+    SchedType.ONE_TIME -> "一回"
     SchedType.DAILY -> "毎日"
     SchedType.WEEKLY -> "毎週"
     SchedType.MONTHLY -> "毎月"
