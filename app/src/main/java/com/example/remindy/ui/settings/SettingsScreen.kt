@@ -7,23 +7,41 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.remindy.R
 import com.example.remindy.domain.model.Frequency
+import com.example.remindy.ui.common.LoadState
+import com.example.remindy.ui.common.ScreenHeader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(viewModel: SettingsViewModel) {
+fun SettingsScreen(viewModel: SettingsViewModel, onLogout: () -> Unit) {
     val setting by viewModel.setting.collectAsState()
+    val state by viewModel.state.collectAsState()
+    var showImportDialog by remember { mutableStateOf(false) }
+
+    if (showImportDialog) {
+        AlertDialog(
+            onDismissRequest = { showImportDialog = false },
+            title = { Text("バックエンドからインポート") },
+            text = { Text("ローカルのリマインダーと学習項目を削除し、サーバーのデータで上書きします。この操作は取り消せません。") },
+            confirmButton = {
+                TextButton(onClick = {
+                    showImportDialog = false
+                    viewModel.importFromBackend()
+                }) { Text("インポート", color = MaterialTheme.colorScheme.error) }
+            },
+            dismissButton = {
+                TextButton(onClick = { showImportDialog = false }) { Text("キャンセル") }
+            },
+        )
+    }
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
-            TopAppBar(
-                title = { Text("学習通知設定", fontWeight = FontWeight.Bold) },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
-                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
-                ),
+            ScreenHeader(
+                imageRes = R.drawable.notification_settings_header,
+                screenTitle = "学習通知設定",
             )
         },
     ) { padding ->
@@ -111,6 +129,45 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
                         }
                     }
                 }
+            }
+
+            // ── バックエンドからインポート ───────────────
+            OutlinedButton(
+                onClick = { showImportDialog = true },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = state !is LoadState.Loading,
+            ) {
+                if (state is LoadState.Loading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(16.dp),
+                        strokeWidth = 2.dp,
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                }
+                Text("バックエンドからインポート", style = MaterialTheme.typography.labelLarge)
+            }
+
+            if (state is LoadState.Error) {
+                Text(
+                    (state as LoadState.Error).message,
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
+
+            // ── ログアウト ──────────────────────────────
+            OutlinedButton(
+                onClick = onLogout,
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    contentColor = MaterialTheme.colorScheme.error,
+                ),
+                border = androidx.compose.foundation.BorderStroke(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.error,
+                ),
+            ) {
+                Text("ログアウト", style = MaterialTheme.typography.labelLarge)
             }
 
             // ── 補足説明 ────────────────────────────────

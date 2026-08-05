@@ -18,6 +18,10 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
     fun login(email: String, password: String) = run(email, password, register = false)
     fun register(email: String, password: String) = run(email, password, register = true)
 
+    fun logout() {
+        viewModelScope.launch { authRepository.logout() }
+    }
+
     private fun run(email: String, password: String, register: Boolean) {
         if (email.isBlank() || password.isBlank()) {
             _state.value = LoadState.Error("メールアドレスとパスワードを入力してください")

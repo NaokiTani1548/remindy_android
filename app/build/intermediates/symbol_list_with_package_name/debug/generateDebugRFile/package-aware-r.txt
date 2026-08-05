@@ -1,6 +1,10 @@
 com.example.remindy
 color ic_launcher_background
 drawable ic_notification
+drawable notification_settings_header
+drawable reminder_header
+drawable remindy_wordmark
+drawable study_header
 mipmap ic_launcher
 mipmap ic_launcher_foreground
 mipmap ic_launcher_round

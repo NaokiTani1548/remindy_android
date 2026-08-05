@@ -20,7 +20,6 @@ import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
 /**
  * 手動DIコンテナ。Applicationが1つ生成し、全依存の単一の組み立て場所にする。
- * （Hiltへの置き換えも可能だが、注釈処理の版ずれを避け学習しやすさを優先して手動にしている。）
  */
 class AppContainer(context: Context) {
 
@@ -52,10 +51,18 @@ class AppContainer(context: Context) {
         .fallbackToDestructiveMigration(true)
         .build()
 
+    val healthRepository = HealthRepository(BuildConfig.BASE_URL)
+
     val authRepository = AuthRepository(api, tokenStore)
-    val reminderRepository = ReminderRepository(api, db.reminderDao())
-    val studyRepository = StudyRepository(api, db.studyItemDao(), db.settingDao())
-    val syncRepository = SyncRepository(api, db.reminderDao(), db.studyItemDao(), db.settingDao())
+    val reminderRepository = ReminderRepository(db.reminderDao())
+    val studyRepository = StudyRepository(db.studyItemDao(), db.settingDao())
+    val syncRepository = SyncRepository(
+        api,
+        db.reminderDao(),
+        db.studyItemDao(),
+        db.settingDao(),
+        db.syncMetadataDao(),
+    )
 
     val reminderAlarmScheduler = ReminderAlarmScheduler(context)
     val studyAlarmScheduler = StudyAlarmScheduler(context)

@@ -1,5 +1,6 @@
 package com.example.remindy.ui.auth
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -11,13 +12,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.remindy.R
 import com.example.remindy.ui.common.LoadState
 
 @Composable
@@ -31,40 +35,44 @@ fun LoginScreen(viewModel: AuthViewModel) {
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
     ) {
-        // ── グラデーションヘッダー ───────────────────────
+        // ── ブランディングヘッダー ───────────────────────
+        // 白背景にすることでロゴPNGの白地がそのまま溶け込む
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    brush = Brush.verticalGradient(
+                    Brush.horizontalGradient(
                         colors = listOf(
-                        MaterialTheme.colorScheme.primary,
-                        MaterialTheme.colorScheme.secondary,
-                    ),
+                            Color(0xFFE8EAF6), // Indigo 50
+                            Color(0xFFEDE7F6), // Deep Purple 50
+                            Color(0xFFFFF8E1), // Amber 50
+                        ),
                     ),
                 )
                 .padding(horizontal = 28.dp)
-                .padding(top = 80.dp, bottom = 52.dp),
+                .padding(top = 72.dp, bottom = 36.dp),
         ) {
             Column {
-                Text(
-                    text = "Remindy",
-                    style = MaterialTheme.typography.displaySmall,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = Color.White,
+                Image(
+                    painter = painterResource(R.drawable.remindy_wordmark),
+                    contentDescription = "Remindy",
+                    contentScale = ContentScale.FillHeight,
+                    modifier = Modifier.height(52.dp),
                 )
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(12.dp))
                 Text(
                     text = "リマインダーと学習をひとつに",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color.White.copy(alpha = 0.85f),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
         }
 
         // ── フォームカード ───────────────────────────────
         Column(
-            modifier = Modifier.padding(horizontal = 24.dp),
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background)
+                .padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(Modifier.height(28.dp))

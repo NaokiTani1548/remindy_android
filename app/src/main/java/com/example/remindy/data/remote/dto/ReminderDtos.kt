@@ -8,16 +8,7 @@ data class ReminderResponseDto(
     val title: String,
     val schedule: ScheduleDto,
     val enabled: Boolean,
+    val createdAt: String = "",
+    val updatedAt: String = "",
+    val deletedAt: String? = null,
 )
-
-@Serializable
-data class ReminderListResponseDto(val items: List<ReminderResponseDto>)
-
-@Serializable
-data class CreateReminderRequestDto(val title: String, val schedule: ScheduleDto)
-
-@Serializable
-data class UpdateReminderRequestDto(val title: String, val schedule: ScheduleDto)
-
-@Serializable
-data class ToggleEnabledRequestDto(val enabled: Boolean)

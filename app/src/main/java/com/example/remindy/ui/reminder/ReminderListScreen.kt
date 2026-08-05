@@ -12,11 +12,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.remindy.R
 import com.example.remindy.domain.model.Reminder
 import com.example.remindy.domain.model.Schedule
+import com.example.remindy.ui.common.ScreenHeader
 import com.example.remindy.ui.theme.Amber100
 import com.example.remindy.ui.theme.Amber900
 
@@ -28,22 +29,13 @@ fun ReminderListScreen(
     onEdit: (String) -> Unit,
 ) {
     val reminders by viewModel.reminders.collectAsState()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
-            MediumTopAppBar(
-                title = { Text("リマインダー", fontWeight = FontWeight.Bold) },
-                scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    scrolledContainerColor = MaterialTheme.colorScheme.primary,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
-                ),
+            ScreenHeader(
+                imageRes = R.drawable.reminder_header,
+                screenTitle = "リマインダー",
             )
         },
         floatingActionButton = {

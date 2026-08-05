@@ -3,9 +3,9 @@ package com.example.remindy.ui.reminder
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.remindy.data.repository.ReminderRepository
-import com.example.remindy.data.repository.SyncRepository
 import com.example.remindy.domain.model.Reminder
 import com.example.remindy.domain.model.Schedule
+import java.time.LocalDateTime
 import com.example.remindy.notification.ReminderAlarmScheduler
 import com.example.remindy.ui.common.LoadState
 import com.example.remindy.ui.common.debugMessage
@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 
 class ReminderViewModel(
     private val repository: ReminderRepository,
-    private val syncRepository: SyncRepository,
     private val alarmScheduler: ReminderAlarmScheduler,
 ) : ViewModel() {
 
@@ -25,12 +24,27 @@ class ReminderViewModel(
     private val _state = MutableStateFlow<LoadState>(LoadState.Idle)
     val state: StateFlow<LoadState> = _state.asStateFlow()
 
-    init { refresh() }
-
-    fun refresh() = launchGuarded {
-        // 起動時は一括同期でローカルを満たし、全リマインダーを再スケジュール
-        syncRepository.syncAll()
-        alarmScheduler.rescheduleAll(repository.enabledReminders())
+    init {
+        // 同期・インポートで後からデータが入ってきた場合も含め、
+        // reminders が更新されるたびに期限切れ一回通知を自動削除する
+        viewModelScope.launch {
+            reminders.collect { list ->
+                val threshold = LocalDateTime.now().minusDays(2)
+                val expired = list.filter { reminder ->
+                    val s = reminder.schedule
+                    s is Schedule.OneTime &&
+                        LocalDateTime.of(s.date, s.time).isBefore(threshold)
+                }
+                if (expired.isEmpty()) return@collect
+                expired.forEach { reminder ->
+                    repository.delete(reminder.id)
+                    alarmScheduler.cancel(reminder.id)
+                }
+                alarmScheduler.rescheduleAll(repository.enabledReminders())
+            }
+        }
+        // 初期アラームスケジューリング
+        launchGuarded { alarmScheduler.rescheduleAll(repository.enabledReminders()) }
     }
 
     fun findById(id: String): Reminder? = reminders.value.firstOrNull { it.id == id }

@@ -5,17 +5,25 @@ import androidx.room.RoomDatabase
 import com.example.remindy.data.local.dao.ReminderDao
 import com.example.remindy.data.local.dao.SettingDao
 import com.example.remindy.data.local.dao.StudyItemDao
+import com.example.remindy.data.local.dao.SyncMetadataDao
 import com.example.remindy.data.local.entity.ReminderEntity
 import com.example.remindy.data.local.entity.SettingEntity
 import com.example.remindy.data.local.entity.StudyItemEntity
+import com.example.remindy.data.local.entity.SyncMetadataEntity
 
 @Database(
-    entities = [ReminderEntity::class, StudyItemEntity::class, SettingEntity::class],
-    version = 1,
+    entities = [
+        ReminderEntity::class,
+        StudyItemEntity::class,
+        SettingEntity::class,
+        SyncMetadataEntity::class,
+    ],
+    version = 2,
     exportSchema = false,
 )
 abstract class RemindyDatabase : RoomDatabase() {
     abstract fun reminderDao(): ReminderDao
     abstract fun studyItemDao(): StudyItemDao
     abstract fun settingDao(): SettingDao
+    abstract fun syncMetadataDao(): SyncMetadataDao
 }

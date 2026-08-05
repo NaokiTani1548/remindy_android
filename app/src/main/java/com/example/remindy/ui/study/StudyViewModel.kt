@@ -19,10 +19,6 @@ class StudyViewModel(private val repository: StudyRepository) : ViewModel() {
     private val _state = MutableStateFlow<LoadState>(LoadState.Idle)
     val state: StateFlow<LoadState> = _state.asStateFlow()
 
-    init { refresh() }
-
-    fun refresh() = launchGuarded { repository.refreshItems() }
-
     fun findById(id: String): StudyItem? = items.value.firstOrNull { it.id == id }
 
     fun create(kind: StudyItemKind, prompt: String, answer: String) =

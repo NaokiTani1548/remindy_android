@@ -1,11 +1,14 @@
 package com.example.remindy.ui.reminder
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -15,8 +18,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.remindy.domain.model.Schedule
 import java.time.DayOfWeek
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 
 private enum class SchedType { ONE_TIME, DAILY, WEEKLY, MONTHLY }
 
@@ -31,20 +37,91 @@ fun ReminderEditScreen(
 
     var title by remember { mutableStateOf(existing?.title ?: "") }
     var type by remember { mutableStateOf(existing?.schedule.toType()) }
-    var time by remember { mutableStateOf(existing?.schedule?.time?.toString() ?: "09:00") }
-    var date by remember { mutableStateOf((existing?.schedule as? Schedule.OneTime)?.date?.toString() ?: LocalDate.now().toString()) }
-    var dayOfWeek by remember { mutableStateOf((existing?.schedule as? Schedule.Weekly)?.dayOfWeek ?: DayOfWeek.MONDAY) }
-    var dayOfMonth by remember { mutableStateOf(((existing?.schedule as? Schedule.Monthly)?.dayOfMonth ?: 1).toString()) }
+    var selectedTime by remember {
+        mutableStateOf(existing?.schedule?.time ?: LocalTime.of(9, 0))
+    }
+    var selectedDate by remember {
+        mutableStateOf((existing?.schedule as? Schedule.OneTime)?.date ?: LocalDate.now())
+    }
+    var dayOfWeek by remember {
+        mutableStateOf((existing?.schedule as? Schedule.Weekly)?.dayOfWeek ?: DayOfWeek.MONDAY)
+    }
+    var dayOfMonth by remember {
+        mutableStateOf(((existing?.schedule as? Schedule.Monthly)?.dayOfMonth ?: 1).toString())
+    }
     var error by remember { mutableStateOf<String?>(null) }
+
+    var showTimePicker by remember { mutableStateOf(false) }
+    var showDatePicker by remember { mutableStateOf(false) }
+
+    // ── 時刻ピッカーダイアログ ───────────────────────
+    if (showTimePicker) {
+        val state = rememberTimePickerState(
+            initialHour = selectedTime.hour,
+            initialMinute = selectedTime.minute,
+            is24Hour = true,
+        )
+        AlertDialog(
+            onDismissRequest = { showTimePicker = false },
+            title = { Text("時刻を選択") },
+            text = {
+                TimePicker(state = state)
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    selectedTime = LocalTime.of(state.hour, state.minute)
+                    showTimePicker = false
+                }) { Text("OK") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showTimePicker = false }) { Text("キャンセル") }
+            },
+        )
+    }
+
+    // ── 日付ピッカーダイアログ ───────────────────────
+    if (showDatePicker) {
+        val state = rememberDatePickerState(
+            initialSelectedDateMillis = selectedDate
+                .atStartOfDay(ZoneOffset.UTC)
+                .toInstant()
+                .toEpochMilli(),
+        )
+        DatePickerDialog(
+            onDismissRequest = { showDatePicker = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    state.selectedDateMillis?.let { millis ->
+                        selectedDate = Instant.ofEpochMilli(millis)
+                            .atZone(ZoneOffset.UTC)
+                            .toLocalDate()
+                    }
+                    showDatePicker = false
+                }) { Text("OK") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDatePicker = false }) { Text("キャンセル") }
+            },
+        ) {
+            DatePicker(state = state)
+        }
+    }
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        if (existing == null) "新規リマインダー" else "リマインダー編集",
-                        fontWeight = FontWeight.SemiBold,
-                    )
+                    Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
+                        Text(
+                            text = "Remindy",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.7f),
+                        )
+                        Text(
+                            text = if (existing == null) "新規リマインダー" else "リマインダー編集",
+                            fontWeight = FontWeight.SemiBold,
+                        )
+                    }
                 },
                 navigationIcon = {
                     IconButton(onClick = onDone) {
@@ -125,23 +202,49 @@ fun ReminderEditScreen(
                         }
                     }
 
-                    OutlinedTextField(
-                        value = time,
-                        onValueChange = { time = it },
-                        label = { Text("時刻 (HH:mm)") },
-                        singleLine = true,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-
-                    when (type) {
-                        SchedType.ONE_TIME -> OutlinedTextField(
-                            value = date,
-                            onValueChange = { date = it },
-                            label = { Text("日付 (YYYY-MM-DD)") },
-                            singleLine = true,
+                    // 時刻：時計UIで選択
+                    Box {
+                        OutlinedTextField(
+                            value = selectedTime.format(DateTimeFormatter.ofPattern("HH:mm")),
+                            onValueChange = {},
+                            readOnly = true,
+                            label = { Text("時刻") },
+                            trailingIcon = {
+                                Icon(Icons.Default.Schedule, contentDescription = "時刻を選択")
+                            },
                             modifier = Modifier.fillMaxWidth(),
                         )
+                        // TextField全体をタップ可能にするための透明オーバーレイ
+                        Box(
+                            modifier = Modifier
+                                .matchParentSize()
+                                .clickable { showTimePicker = true },
+                        )
+                    }
+
+                    when (type) {
+                        SchedType.ONE_TIME -> {
+                            // 日付：カレンダーUIで選択
+                            Box {
+                                OutlinedTextField(
+                                    value = selectedDate.format(
+                                        DateTimeFormatter.ofPattern("yyyy年M月d日")
+                                    ),
+                                    onValueChange = {},
+                                    readOnly = true,
+                                    label = { Text("日付") },
+                                    trailingIcon = {
+                                        Icon(Icons.Default.CalendarToday, contentDescription = "日付を選択")
+                                    },
+                                    modifier = Modifier.fillMaxWidth(),
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .matchParentSize()
+                                        .clickable { showDatePicker = true },
+                                )
+                            }
+                        }
                         SchedType.WEEKLY -> WeekdaySelector(dayOfWeek) { dayOfWeek = it }
                         SchedType.MONTHLY -> OutlinedTextField(
                             value = dayOfMonth,
@@ -175,7 +278,7 @@ fun ReminderEditScreen(
             // ── アクションボタン ────────────────────────
             Button(
                 onClick = {
-                    val result = buildSchedule(type, time, date, dayOfWeek, dayOfMonth)
+                    val result = buildSchedule(type, selectedTime, selectedDate, dayOfWeek, dayOfMonth)
                     when {
                         title.isBlank() -> error = "タイトルを入力してください"
                         result == null -> error = "スケジュールの入力が不正です"
@@ -221,11 +324,21 @@ private fun WeekdaySelector(selected: DayOfWeek, onSelect: (DayOfWeek) -> Unit) 
                         count = DayOfWeek.entries.size,
                     ),
                 ) {
-                    Text(weekdayJa(d.name))
+                    Text(weekdayJa(d))
                 }
             }
         }
     }
+}
+
+private fun weekdayJa(d: DayOfWeek) = when (d) {
+    DayOfWeek.MONDAY -> "月"
+    DayOfWeek.TUESDAY -> "火"
+    DayOfWeek.WEDNESDAY -> "水"
+    DayOfWeek.THURSDAY -> "木"
+    DayOfWeek.FRIDAY -> "金"
+    DayOfWeek.SATURDAY -> "土"
+    DayOfWeek.SUNDAY -> "日"
 }
 
 private fun Schedule?.toType(): SchedType = when (this) {
@@ -244,11 +357,14 @@ private fun typeLabel(t: SchedType) = when (t) {
 }
 
 private fun buildSchedule(
-    type: SchedType, timeStr: String, dateStr: String, dow: DayOfWeek, domStr: String,
+    type: SchedType,
+    time: LocalTime,
+    date: LocalDate,
+    dow: DayOfWeek,
+    domStr: String,
 ): Schedule? = try {
-    val time = LocalTime.parse(timeStr)
     when (type) {
-        SchedType.ONE_TIME -> Schedule.OneTime(LocalDate.parse(dateStr), time)
+        SchedType.ONE_TIME -> Schedule.OneTime(date, time)
         SchedType.DAILY -> Schedule.Daily(time)
         SchedType.WEEKLY -> Schedule.Weekly(dow, time)
         SchedType.MONTHLY -> {
@@ -256,6 +372,6 @@ private fun buildSchedule(
             if (dom in 1..31) Schedule.Monthly(dom, time) else null
         }
     }
-} catch (e: Exception) {
+} catch (_: Exception) {
     null
 }

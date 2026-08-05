@@ -29,10 +29,17 @@ fun StudyEditScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        if (existing == null) "新規学習項目" else "学習項目編集",
-                        fontWeight = FontWeight.SemiBold,
-                    )
+                    Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
+                        Text(
+                            text = "Remindy",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.7f),
+                        )
+                        Text(
+                            text = if (existing == null) "新規学習項目" else "学習項目編集",
+                            fontWeight = FontWeight.SemiBold,
+                        )
+                    }
                 },
                 navigationIcon = {
                     IconButton(onClick = onDone) {

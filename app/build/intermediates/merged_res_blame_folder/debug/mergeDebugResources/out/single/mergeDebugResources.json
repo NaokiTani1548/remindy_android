@@ -4,64 +4,20 @@
         "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-xxxhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-anydpi-v26/ic_launcher.xml"
+        "merged": "com.example.remindy.app-debug-56:/drawable_notification_settings_header.png.flat",
+        "source": "com.example.remindy.app-main-58:/drawable/notification_settings_header.png"
     },
     {
         "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-hdpi_ic_launcher_round.webp.flat",
         "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-hdpi/ic_launcher_round.webp"
     },
     {
+        "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
         "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-hdpi_ic_launcher.webp.flat",
         "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-hdpi/ic_launcher.webp"
-    },
-    {
-        "merged": "com.example.remindy.app-debug-56:/mipmap-mdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.remindy.app-main-58:/mipmap-mdpi/ic_launcher_round.webp"
-    },
-    {
-        "merged": "com.example.remindy.app-debug-56:/mipmap-xxxhdpi_ic_launcher.webp.flat",
-        "source": "com.example.remindy.app-main-58:/mipmap-xxxhdpi/ic_launcher.webp"
-    },
-    {
-        "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
-        "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-xxxhdpi/ic_launcher_foreground.webp"
-    },
-    {
-        "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-mdpi_ic_launcher_round.webp.flat",
-        "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-mdpi/ic_launcher_round.webp"
-    },
-    {
-        "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-mdpi_ic_launcher.webp.flat",
-        "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-mdpi/ic_launcher.webp"
-    },
-    {
-        "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-xhdpi_ic_launcher.webp.flat",
-        "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-xhdpi/ic_launcher.webp"
-    },
-    {
-        "merged": "com.example.remindy.app-debug-56:/mipmap-xhdpi_ic_launcher.webp.flat",
-        "source": "com.example.remindy.app-main-58:/mipmap-xhdpi/ic_launcher.webp"
-    },
-    {
-        "merged": "com.example.remindy.app-debug-56:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.remindy.app-main-58:/mipmap-xxhdpi/ic_launcher_round.webp"
-    },
-    {
-        "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/drawable_ic_notification.xml.flat",
-        "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/drawable/ic_notification.xml"
-    },
-    {
-        "merged": "com.example.remindy.app-debug-56:/mipmap-xxhdpi_ic_launcher.webp.flat",
-        "source": "com.example.remindy.app-main-58:/mipmap-xxhdpi/ic_launcher.webp"
-    },
-    {
-        "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
-        "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-xxhdpi/ic_launcher_round.webp"
-    },
-    {
-        "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-xxxhdpi_ic_launcher.webp.flat",
-        "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-xxxhdpi/ic_launcher.webp"
     },
     {
         "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
@@ -72,20 +28,16 @@
         "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-xhdpi/ic_launcher_foreground.webp"
     },
     {
-        "merged": "com.example.remindy.app-debug-56:/mipmap-mdpi_ic_launcher.webp.flat",
-        "source": "com.example.remindy.app-main-58:/mipmap-mdpi/ic_launcher.webp"
+        "merged": "com.example.remindy.app-debug-56:/drawable_study_header.png.flat",
+        "source": "com.example.remindy.app-main-58:/drawable/study_header.png"
     },
     {
-        "merged": "com.example.remindy.app-debug-56:/mipmap-hdpi_ic_launcher.webp.flat",
-        "source": "com.example.remindy.app-main-58:/mipmap-hdpi/ic_launcher.webp"
+        "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-xxxhdpi/ic_launcher_foreground.webp"
     },
     {
         "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-mdpi_ic_launcher_foreground.webp.flat",
         "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-mdpi/ic_launcher_foreground.webp"
-    },
-    {
-        "merged": "com.example.remindy.app-debug-56:/mipmap-hdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.remindy.app-main-58:/mipmap-hdpi/ic_launcher_round.webp"
     },
     {
         "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
@@ -96,19 +48,43 @@
         "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-xhdpi/ic_launcher_round.webp"
     },
     {
+        "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.remindy.app-debug-56:/drawable_remindy_wordmark.png.flat",
+        "source": "com.example.remindy.app-main-58:/drawable/remindy_wordmark.png"
+    },
+    {
         "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-xxhdpi_ic_launcher.webp.flat",
         "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-xxhdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.remindy.app-debug-56:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.remindy.app-main-58:/mipmap-xxxhdpi/ic_launcher_round.webp"
+        "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.remindy.app-debug-56:/drawable_reminder_header.png.flat",
+        "source": "com.example.remindy.app-main-58:/drawable/reminder_header.png"
+    },
+    {
+        "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/drawable_ic_notification.xml.flat",
+        "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/drawable/ic_notification.xml"
     },
     {
         "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-hdpi_ic_launcher_foreground.webp.flat",
         "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-hdpi/ic_launcher_foreground.webp"
     },
     {
-        "merged": "com.example.remindy.app-debug-56:/mipmap-xhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.remindy.app-main-58:/mipmap-xhdpi/ic_launcher_round.webp"
+        "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-debug-56:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "/Users/naoki/.gradle/daemon/9.4.1/com.example.remindy.app-main-58:/mipmap-xxxhdpi/ic_launcher.webp"
     }
 ]

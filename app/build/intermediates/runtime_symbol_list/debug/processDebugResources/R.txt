@@ -119,10 +119,14 @@ int drawable notification_bg_normal 0x7f05000c
 int drawable notification_bg_normal_pressed 0x7f05000d
 int drawable notification_icon_background 0x7f05000e
 int drawable notification_oversize_large_icon_bg 0x7f05000f
+int drawable notification_settings_header 0x7f050014
 int drawable notification_template_icon_bg 0x7f050010
 int drawable notification_template_icon_low_bg 0x7f050011
 int drawable notification_tile_bg 0x7f050012
 int drawable notify_panel_notification_icon_bg 0x7f050013
+int drawable reminder_header 0x7f050015
+int drawable remindy_wordmark 0x7f050016
+int drawable study_header 0x7f050017
 int id accessibility_action_clickable_span 0x7f060000
 int id accessibility_custom_action_0 0x7f060001
 int id accessibility_custom_action_1 0x7f060002
