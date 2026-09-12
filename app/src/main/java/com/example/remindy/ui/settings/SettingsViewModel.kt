@@ -10,6 +10,7 @@ import com.example.remindy.notification.StudyAlarmScheduler
 import com.example.remindy.ui.common.LoadState
 import com.example.remindy.ui.common.debugMessage
 import kotlinx.coroutines.flow.*
+import retrofit2.HttpException
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(
@@ -44,7 +45,12 @@ class SettingsViewModel(
                 syncRepository.importFromServer()
                 _state.value = LoadState.Idle
             } catch (e: Exception) {
-                _state.value = LoadState.Error(debugMessage(e))
+                val msg = if (e is HttpException && e.code() == 401) {
+                    "認証の有効期限が切れました。再ログインしてください。"
+                } else {
+                    debugMessage(e)
+                }
+                _state.value = LoadState.Error(msg)
             }
         }
     }

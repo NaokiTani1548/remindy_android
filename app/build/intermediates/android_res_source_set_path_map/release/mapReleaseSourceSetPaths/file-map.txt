@@ -1,8 +1,0 @@
-com.example.remindy.app-pngs-0 /Users/naoki/AndroidStudioProjects/Remindy/app/build/generated/res/pngs/release
-com.example.remindy.app-updated_navigation_xml-1 /Users/naoki/AndroidStudioProjects/Remindy/app/build/generated/updated_navigation_xml/release
-com.example.remindy.app-packageReleaseResources-2 /Users/naoki/AndroidStudioProjects/Remindy/app/build/intermediates/incremental/release/packageReleaseResources/merged.dir
-com.example.remindy.app-packageReleaseResources-3 /Users/naoki/AndroidStudioProjects/Remindy/app/build/intermediates/incremental/release/packageReleaseResources/stripped.dir
-com.example.remindy.app-release-4 /Users/naoki/AndroidStudioProjects/Remindy/app/build/intermediates/merged_res/release/mergeReleaseResources
-com.example.remindy.app-main-5 /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/res
-com.example.remindy.app-release-6 /Users/naoki/AndroidStudioProjects/Remindy/app/src/release/res
-gradleHome-0 /Users/naoki/.gradle

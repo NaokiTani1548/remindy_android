@@ -17,6 +17,8 @@ import com.example.remindy.`data`.local.dao.StudyItemDao
 import com.example.remindy.`data`.local.dao.StudyItemDao_Impl
 import com.example.remindy.`data`.local.dao.SyncMetadataDao
 import com.example.remindy.`data`.local.dao.SyncMetadataDao_Impl
+import com.example.remindy.`data`.local.dao.TodoDao
+import com.example.remindy.`data`.local.dao.TodoDao_Impl
 import javax.`annotation`.processing.Generated
 import kotlin.Lazy
 import kotlin.String
@@ -51,16 +53,21 @@ public class RemindyDatabase_Impl : RemindyDatabase() {
     SyncMetadataDao_Impl(this)
   }
 
+  private val _todoDao: Lazy<TodoDao> = lazy {
+    TodoDao_Impl(this)
+  }
+
   protected override fun createOpenDelegate(): RoomOpenDelegate {
-    val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(2,
-        "ce6ae0f60f8dbdd2f7a5fd6e28cb694b", "e0c092801c6cdf58c6884805a4e15f26") {
+    val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(3,
+        "081b680adf987197748dc0ba929c049a", "02831312e2a6e53d1d42ec085e8071ba") {
       public override fun createAllTables(connection: SQLiteConnection) {
         connection.execSQL("CREATE TABLE IF NOT EXISTS `reminders` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `scheduleType` TEXT NOT NULL, `scheduleTime` TEXT NOT NULL, `scheduleDate` TEXT, `scheduleDayOfWeek` TEXT, `scheduleDayOfMonth` INTEGER, `enabled` INTEGER NOT NULL, `createdAt` TEXT NOT NULL, `updatedAt` TEXT NOT NULL, `deletedAt` TEXT, `synced` INTEGER NOT NULL, PRIMARY KEY(`id`))")
         connection.execSQL("CREATE TABLE IF NOT EXISTS `study_items` (`id` TEXT NOT NULL, `kind` TEXT NOT NULL, `prompt` TEXT NOT NULL, `answer` TEXT NOT NULL, `enabled` INTEGER NOT NULL, `createdAt` TEXT NOT NULL, `updatedAt` TEXT NOT NULL, `deletedAt` TEXT, `synced` INTEGER NOT NULL, PRIMARY KEY(`id`))")
         connection.execSQL("CREATE TABLE IF NOT EXISTS `notification_setting` (`id` INTEGER NOT NULL, `frequency` TEXT NOT NULL, `enabled` INTEGER NOT NULL, `updatedAt` TEXT NOT NULL, `synced` INTEGER NOT NULL, PRIMARY KEY(`id`))")
         connection.execSQL("CREATE TABLE IF NOT EXISTS `sync_metadata` (`id` INTEGER NOT NULL, `lastSyncedAt` TEXT, PRIMARY KEY(`id`))")
+        connection.execSQL("CREATE TABLE IF NOT EXISTS `todos` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `createdAt` TEXT NOT NULL, `updatedAt` TEXT NOT NULL, `deletedAt` TEXT, PRIMARY KEY(`id`))")
         connection.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)")
-        connection.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ce6ae0f60f8dbdd2f7a5fd6e28cb694b')")
+        connection.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '081b680adf987197748dc0ba929c049a')")
       }
 
       public override fun dropAllTables(connection: SQLiteConnection) {
@@ -68,6 +75,7 @@ public class RemindyDatabase_Impl : RemindyDatabase() {
         connection.execSQL("DROP TABLE IF EXISTS `study_items`")
         connection.execSQL("DROP TABLE IF EXISTS `notification_setting`")
         connection.execSQL("DROP TABLE IF EXISTS `sync_metadata`")
+        connection.execSQL("DROP TABLE IF EXISTS `todos`")
       }
 
       public override fun onCreate(connection: SQLiteConnection) {
@@ -203,6 +211,33 @@ public class RemindyDatabase_Impl : RemindyDatabase() {
               | Found:
               |""".trimMargin() + _existingSyncMetadata)
         }
+        val _columnsTodos: MutableMap<String, TableInfo.Column> = mutableMapOf()
+        _columnsTodos.put("id", TableInfo.Column("id", "TEXT", true, 1, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsTodos.put("title", TableInfo.Column("title", "TEXT", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsTodos.put("description", TableInfo.Column("description", "TEXT", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsTodos.put("createdAt", TableInfo.Column("createdAt", "TEXT", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsTodos.put("updatedAt", TableInfo.Column("updatedAt", "TEXT", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsTodos.put("deletedAt", TableInfo.Column("deletedAt", "TEXT", false, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        val _foreignKeysTodos: MutableSet<TableInfo.ForeignKey> = mutableSetOf()
+        val _indicesTodos: MutableSet<TableInfo.Index> = mutableSetOf()
+        val _infoTodos: TableInfo = TableInfo("todos", _columnsTodos, _foreignKeysTodos,
+            _indicesTodos)
+        val _existingTodos: TableInfo = read(connection, "todos")
+        if (!_infoTodos.equals(_existingTodos)) {
+          return RoomOpenDelegate.ValidationResult(false, """
+              |todos(com.example.remindy.data.local.entity.TodoEntity).
+              | Expected:
+              |""".trimMargin() + _infoTodos + """
+              |
+              | Found:
+              |""".trimMargin() + _existingTodos)
+        }
         return RoomOpenDelegate.ValidationResult(true, null)
       }
     }
@@ -213,11 +248,12 @@ public class RemindyDatabase_Impl : RemindyDatabase() {
     val _shadowTablesMap: MutableMap<String, String> = mutableMapOf()
     val _viewTables: MutableMap<String, Set<String>> = mutableMapOf()
     return InvalidationTracker(this, _shadowTablesMap, _viewTables, "reminders", "study_items",
-        "notification_setting", "sync_metadata")
+        "notification_setting", "sync_metadata", "todos")
   }
 
   public override fun clearAllTables() {
-    super.performClear(false, "reminders", "study_items", "notification_setting", "sync_metadata")
+    super.performClear(false, "reminders", "study_items", "notification_setting", "sync_metadata",
+        "todos")
   }
 
   protected override fun getRequiredTypeConverterClasses(): Map<KClass<*>, List<KClass<*>>> {
@@ -226,6 +262,7 @@ public class RemindyDatabase_Impl : RemindyDatabase() {
     _typeConvertersMap.put(StudyItemDao::class, StudyItemDao_Impl.getRequiredConverters())
     _typeConvertersMap.put(SettingDao::class, SettingDao_Impl.getRequiredConverters())
     _typeConvertersMap.put(SyncMetadataDao::class, SyncMetadataDao_Impl.getRequiredConverters())
+    _typeConvertersMap.put(TodoDao::class, TodoDao_Impl.getRequiredConverters())
     return _typeConvertersMap
   }
 
@@ -248,4 +285,6 @@ public class RemindyDatabase_Impl : RemindyDatabase() {
   public override fun settingDao(): SettingDao = _settingDao.value
 
   public override fun syncMetadataDao(): SyncMetadataDao = _syncMetadataDao.value
+
+  public override fun todoDao(): TodoDao = _todoDao.value
 }

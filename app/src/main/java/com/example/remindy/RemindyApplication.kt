@@ -5,7 +5,7 @@ import androidx.work.*
 import com.example.remindy.di.AppContainer
 import com.example.remindy.notification.NotificationChannels
 import com.example.remindy.sync.SyncWorker
-import java.util.concurrent.TimeUnit
+// import java.util.concurrent.TimeUnit
 
 class RemindyApplication : Application() {
     lateinit var container: AppContainer
@@ -24,6 +24,9 @@ class RemindyApplication : Application() {
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
+        // 既存の定期同期をキャンセル
+        workManager.cancelUniqueWork("remindy_sync")
+
         // 起動時に即時同期
         workManager.enqueue(
             OneTimeWorkRequestBuilder<SyncWorker>()
@@ -31,13 +34,13 @@ class RemindyApplication : Application() {
                 .build()
         )
 
-        // 15分ごとの定期同期
-        workManager.enqueueUniquePeriodicWork(
-            "remindy_sync",
-            ExistingPeriodicWorkPolicy.KEEP,
-            PeriodicWorkRequestBuilder<SyncWorker>(15, TimeUnit.MINUTES)
-                .setConstraints(networkConstraint)
-                .build()
-        )
+        // 15分ごとの定期同期（同期は一旦削除）
+//        workManager.enqueueUniquePeriodicWork(
+//            "remindy_sync",
+//            ExistingPeriodicWorkPolicy.KEEP,
+//            PeriodicWorkRequestBuilder<SyncWorker>(15, TimeUnit.MINUTES)
+//                .setConstraints(networkConstraint)
+//                .build()
+//        )
     }
 }

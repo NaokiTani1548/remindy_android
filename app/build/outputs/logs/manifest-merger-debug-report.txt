@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:2:1-44:12
-INJECTED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:2:1-44:12
-INJECTED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:2:1-44:12
-INJECTED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:2:1-44:12
+ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:2:1-60:12
+INJECTED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:2:1-60:12
+INJECTED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:2:1-60:12
+INJECTED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:2:1-60:12
 MERGED from [androidx.navigation:navigation-runtime-android:2.9.0] /Users/naoki/.gradle/caches/9.4.1/transforms/a8c5e0b457312c9657aeb3d7562e484c/transformed/navigation-runtime-release/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.navigation:navigation-common-android:2.9.0] /Users/naoki/.gradle/caches/9.4.1/transforms/44c48300bd3b983a9149ee2005dd62ca/transformed/navigation-common-release/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.navigation:navigation-compose-android:2.9.0] /Users/naoki/.gradle/caches/9.4.1/transforms/fe999f29c6f7aab0c7c63c4f0678e3ce/transformed/navigation-compose-release/AndroidManifest.xml:2:1-7:12
@@ -109,8 +109,8 @@ MERGED from [androidx.work:work-runtime:2.10.1] /Users/naoki/.gradle/caches/9.4.
 	android:name
 		ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:7:22-78
 application
-ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:9:5-43:19
-INJECTED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:9:5-43:19
+ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:9:5-59:19
+INJECTED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:9:5-59:19
 MERGED from [androidx.compose.ui:ui-tooling-android:1.10.4] /Users/naoki/.gradle/caches/9.4.1/transforms/8b7b4c773df57fd0c47ddbfe705fc399/transformed/ui-tooling/AndroidManifest.xml:22:5-26:19
 MERGED from [androidx.compose.ui:ui-tooling-android:1.10.4] /Users/naoki/.gradle/caches/9.4.1/transforms/8b7b4c773df57fd0c47ddbfe705fc399/transformed/ui-tooling/AndroidManifest.xml:22:5-26:19
 MERGED from [androidx.work:work-runtime:2.10.1] /Users/naoki/.gradle/caches/9.4.1/transforms/8453b7e09d8ec003b2acf4709bb3c561/transformed/work-runtime-2.10.1/AndroidManifest.xml:28:5-143:19
@@ -193,6 +193,36 @@ action#android.intent.action.BOOT_COMPLETED
 ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:40:17-79
 	android:name
 		ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:40:25-76
+receiver#com.example.remindy.widget.TodoWidgetProvider
+ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:43:9-53:20
+	android:exported
+		ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:45:13-37
+	android:name
+		ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:44:13-54
+intent-filter#action:name:android.appwidget.action.APPWIDGET_UPDATE+action:name:com.example.remindy.widget.REFRESH
+ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:46:13-49:29
+action#android.appwidget.action.APPWIDGET_UPDATE
+ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:47:17-84
+	android:name
+		ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:47:25-81
+action#com.example.remindy.widget.REFRESH
+ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:48:17-77
+	android:name
+		ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:48:25-74
+meta-data#android.appwidget.provider
+ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:50:13-52:60
+	android:resource
+		ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:52:17-57
+	android:name
+		ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:51:17-58
+service#com.example.remindy.widget.TodoWidgetService
+ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:55:9-58:40
+	android:exported
+		ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:58:13-37
+	android:permission
+		ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:57:13-69
+	android:name
+		ADDED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml:56:13-53
 uses-sdk
 INJECTED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/naoki/AndroidStudioProjects/Remindy/app/src/main/AndroidManifest.xml

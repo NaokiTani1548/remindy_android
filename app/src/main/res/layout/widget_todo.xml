@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#AA101010">
+
+        <!-- ヘッダー画像 -->
+        <ImageView
+            android:id="@+id/widget_header"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/todo_header"
+            android:contentDescription="@null" />
+
+        <!-- ヘッダーオーバーレイテキスト -->
+        <TextView
+            android:id="@+id/widget_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/widget_header"
+            android:layout_marginStart="12dp"
+            android:layout_marginBottom="4dp"
+            android:text="ToDo"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:shadowColor="#80000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="3" />
+
+        <!-- 空メッセージ -->
+        <TextView
+            android:id="@+id/widget_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/widget_header"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="ToDoがありません"
+            android:textColor="#55FFFFFF"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <!-- ToDoリスト -->
+        <ListView
+            android:id="@+id/widget_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/widget_header"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:clipToPadding="false" />
+
+    </RelativeLayout>
+
+</FrameLayout>

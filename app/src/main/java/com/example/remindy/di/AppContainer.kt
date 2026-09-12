@@ -8,6 +8,7 @@ import com.example.remindy.data.local.TokenStore
 import com.example.remindy.data.remote.AuthInterceptor
 import com.example.remindy.data.remote.RemindyApi
 import com.example.remindy.data.repository.*
+import com.example.remindy.data.repository.TodoRepository
 import com.example.remindy.notification.ReminderAlarmScheduler
 import com.example.remindy.notification.StudyAlarmScheduler
 import kotlinx.serialization.json.Json
@@ -47,7 +48,7 @@ class AppContainer(context: Context) {
 
     val api: RemindyApi = retrofit.create(RemindyApi::class.java)
 
-    private val db = Room.databaseBuilder(context, RemindyDatabase::class.java, "remindy.db")
+    val db = Room.databaseBuilder(context, RemindyDatabase::class.java, "remindy.db")
         .fallbackToDestructiveMigration(true)
         .build()
 
@@ -56,6 +57,7 @@ class AppContainer(context: Context) {
     val authRepository = AuthRepository(api, tokenStore)
     val reminderRepository = ReminderRepository(db.reminderDao())
     val studyRepository = StudyRepository(db.studyItemDao(), db.settingDao())
+    val todoRepository = TodoRepository(db.todoDao(), context)
     val syncRepository = SyncRepository(
         api,
         db.reminderDao(),

@@ -8,6 +8,7 @@ import com.example.remindy.ui.connection.ConnectionViewModel
 import com.example.remindy.ui.reminder.ReminderViewModel
 import com.example.remindy.ui.settings.SettingsViewModel
 import com.example.remindy.ui.study.StudyViewModel
+import com.example.remindy.ui.todo.TodoViewModel
 
 @Suppress("UNCHECKED_CAST")
 class RemindyViewModelFactory(private val container: AppContainer) : ViewModelProvider.Factory {
@@ -20,6 +21,8 @@ class RemindyViewModelFactory(private val container: AppContainer) : ViewModelPr
             ReminderViewModel(container.reminderRepository, container.reminderAlarmScheduler) as T
         modelClass.isAssignableFrom(StudyViewModel::class.java) ->
             StudyViewModel(container.studyRepository) as T
+        modelClass.isAssignableFrom(TodoViewModel::class.java) ->
+            TodoViewModel(container.todoRepository) as T
         modelClass.isAssignableFrom(SettingsViewModel::class.java) ->
             SettingsViewModel(container.studyRepository, container.syncRepository, container.studyAlarmScheduler) as T
         else -> throw IllegalArgumentException("Unknown ViewModel: ${modelClass.name}")

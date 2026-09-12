@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckBox
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Settings
@@ -38,11 +39,15 @@ import com.example.remindy.ui.settings.SettingsViewModel
 import com.example.remindy.ui.study.StudyEditScreen
 import com.example.remindy.ui.study.StudyListScreen
 import com.example.remindy.ui.study.StudyViewModel
+import com.example.remindy.ui.todo.TodoEditScreen
+import com.example.remindy.ui.todo.TodoListScreen
+import com.example.remindy.ui.todo.TodoViewModel
 
 private data class TabItem(val route: String, val label: String, val icon: ImageVector)
 
 private val tabs = listOf(
     TabItem("reminders", "リマインダー", Icons.Filled.Notifications),
+    TabItem("todos", "ToDo", Icons.Filled.CheckBox),
     TabItem("studies", "学習", Icons.Filled.School),
     TabItem("settings", "設定", Icons.Filled.Settings),
 )
@@ -66,6 +71,7 @@ private fun MainScaffold(factory: RemindyViewModelFactory) {
     val authVm: AuthViewModel = viewModel(factory = factory)
     val reminderVm: ReminderViewModel = viewModel(factory = factory)
     val studyVm: StudyViewModel = viewModel(factory = factory)
+    val todoVm: TodoViewModel = viewModel(factory = factory)
     val settingsVm: SettingsViewModel = viewModel(factory = factory)
     val connectionVm: ConnectionViewModel = viewModel(factory = factory)
 
@@ -107,6 +113,25 @@ private fun MainScaffold(factory: RemindyViewModelFactory) {
                 startDestination = "reminders",
                 modifier = Modifier.padding(padding),
             ) {
+                composable("todos") {
+                    TodoListScreen(
+                        viewModel = todoVm,
+                        onAdd = { navController.navigate("todo_edit") },
+                        onEdit = { id -> navController.navigate("todo_edit?id=$id") },
+                    )
+                }
+                composable(
+                    route = "todo_edit?id={id}",
+                    arguments = listOf(navArgument("id") {
+                        type = NavType.StringType; nullable = true; defaultValue = null
+                    }),
+                ) { entry ->
+                    TodoEditScreen(
+                        viewModel = todoVm,
+                        todoId = entry.arguments?.getString("id"),
+                        onDone = { navController.popBackStack() },
+                    )
+                }
                 composable("reminders") {
                     ReminderListScreen(
                         viewModel = reminderVm,
